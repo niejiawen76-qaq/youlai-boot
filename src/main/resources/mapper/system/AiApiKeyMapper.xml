@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.boot.system.mapper.AiApiKeyMapper">
+
+    <!-- 获取密钥管理分页列表 -->
+    <select id="getAiApiKeyPage" resultType="com.youlai.boot.system.model.vo.AiApiKeyVO">
+        SELECT
+                id,
+                provider_id,
+                access_key,
+                current_balance,
+                status,
+                remark,
+                create_time,
+                update_time
+        FROM
+            ai_api_key
+        <where>
+            <if test="queryParams.accessKey != null and queryParams.accessKey != ''">
+                AND access_key LIKE CONCAT('%', #{queryParams.accessKey}, '%')
+            </if>
+            <if test="queryParams.currentBalance != null">
+                AND current_balance >= #{queryParams.currentBalance}
+            </if>
+            <if test="queryParams.status != null">
+                AND status = #{queryParams.status}
+            </if>
+        </where>
+    </select>
+
+</mapper>
